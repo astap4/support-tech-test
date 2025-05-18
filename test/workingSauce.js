@@ -30,7 +30,7 @@ const ONDEMAND_URL = `https://${SAUCE_USERNAME}:${SAUCE_ACCESS_KEY}@ondemand.eu-
 */
 
 describe('Working Sauce', function () {
-    it('should go to Google and click Sauce', async function () {
+    it('should click link', async function () {
         let driver = await new Builder().withCapabilities(utils.workingCapabilities)
                     .usingServer(ONDEMAND_URL).build();
 
@@ -40,11 +40,12 @@ describe('Working Sauce', function () {
      */
 
     await driver.get("https://saucelabs.com/test/guinea-pig");
-    await assert.strictEqual("I am a page title - Sauce Labs", await driver.getTitle());
+    // await assert.strictEqual("I am a page title - Sauce Labs", await driver.getTitle());
 
     // Task I
-
-
+    const link = await driver.findElement(By.id('i am a link'));
+    await link.click();
+    await assert.strictEqual("I am another page title - Sauce Labs", await driver.getTitle());
     // Task II
 
 
