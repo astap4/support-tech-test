@@ -1,3 +1,4 @@
+require('dotenv').config();
 const {Builder, By, Key, until} = require('selenium-webdriver')
 const SauceLabs = require('saucelabs').default;
 const assert = require('assert');
@@ -6,9 +7,9 @@ const utils = require('./utils')
 const SAUCE_USERNAME = process.env.SAUCE_USERNAME;
 const SAUCE_ACCESS_KEY = process.env.SAUCE_ACCESS_KEY;
 // NOTE: Use the URL below if using our US datacenter (e.g. logged in to app.saucelabs.com)
-const ONDEMAND_URL = `https://${SAUCE_USERNAME}:${SAUCE_ACCESS_KEY}@ondemand.saucelabs.com:443/wd/hub`;
+// const ONDEMAND_URL = `https://${SAUCE_USERNAME}:${SAUCE_ACCESS_KEY}@ondemand.saucelabs.com:443/wd/hub`;
 // NOTE: Use the URL below if using our EU datacenter (e.g. logged in to app.eu-central-1.saucelabs.com)
-// const ONDEMAND_URL = `https://${SAUCE_USERNAME}:${SAUCE_ACCESS_KEY}@ondemand.eu-central-1.saucelabs.com:443/wd/hub`;
+const ONDEMAND_URL = `https://${SAUCE_USERNAME}:${SAUCE_ACCESS_KEY}@ondemand.eu-central-1.saucelabs.com:443/wd/hub`;
 
 /**
 * Task I: Update the test code so when it runs, the test clicks the "I am a link" link.
