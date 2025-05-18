@@ -55,6 +55,18 @@ describe('Working Sauce', function () {
 
 
     // Task III
+    const email = await driver.findElement(By.id('fbemail'));
+    await email.clear(); 
+    await email.sendKeys('test@gmail.com');
+
+    const comments = await driver.findElement(By.id('comments'));
+    await comments.clear(); 
+    await comments.sendKeys('Some comment');
+    
+    const button = await driver.findElement(By.className('jumpButton'));
+    await button.click();
+    const enteredComment = await comments.getAttribute('value');
+    await assert.strictEqual(enteredComment, 'Some comment');
 
     await driver.quit();
     });
