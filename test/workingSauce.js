@@ -30,7 +30,7 @@ const ONDEMAND_URL = `https://${SAUCE_USERNAME}:${SAUCE_ACCESS_KEY}@ondemand.eu-
 */
 
 describe('Working Sauce', function () {
-    it('should click link', async function () {
+    it('should write text', async function () {
         let driver = await new Builder().withCapabilities(utils.workingCapabilities)
                     .usingServer(ONDEMAND_URL).build();
 
@@ -43,10 +43,15 @@ describe('Working Sauce', function () {
     // await assert.strictEqual("I am a page title - Sauce Labs", await driver.getTitle());
 
     // Task I
-    const link = await driver.findElement(By.id('i am a link'));
-    await link.click();
-    await assert.strictEqual("I am another page title - Sauce Labs", await driver.getTitle());
+    // const link = await driver.findElement(By.id('i am a link'));
+    // await link.click();
+    // await assert.strictEqual("I am another page title - Sauce Labs", await driver.getTitle());
     // Task II
+    const text_box = await driver.findElement(By.id('i_am_a_textbox'));
+    await text_box.clear(); 
+    await text_box.sendKeys('Sauce');
+    const enteredText = await text_box.getAttribute('value');
+    await assert.strictEqual(enteredText, 'Sauce');
 
 
     // Task III
