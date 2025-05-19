@@ -41,15 +41,25 @@ describe('Broken Sauce', function () {
             // const button = await driver.wait(until.elementLocated(By.css('input.gNO89b')), 5000);
             // await button.click()
 
-            // await driver.wait(until.titleContains('Sauce Labs'), 5000);
-
             // Find Sauce Labs link in results - more reliable locator
             const sauceLink = await driver.wait(until.elementLocated(
                 By.xpath('//a[contains(@href, "saucelabs.com")]')
             ), 5000);
             await sauceLink.click()
-
+            // find 'Developers' in menu
+            const devMenu = await driver.wait(until.elementLocated(By.xpath("//span[text()='Developers']")), 10000);
+            // hover element
+            await driver.actions({ bridge: true }).move({ origin: devMenu }).perform();
+            // wait until documentation opens
+            const documentationLink = await driver.wait(until.elementLocated(By.xpath("//span[text()='Documentation']")), 10000);
+            await documentationLink.click();
+            // wait until documentation page loads
+            await driver.wait(until.urlContains("docs.saucelabs.com"), 10000);
+            // verify that the page title is correct
+            const title = await driver.getTitle();
+            await assert.strictEqual(title, "Sauce Labs Documentation, Developer Community &amp; Resources | Sauce Labs Documentation");
             await driver.quit();
+            
         } catch (err) {
             // hack to make this pass for Gitlab CI
             // candidates can ignore this
