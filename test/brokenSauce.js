@@ -1,12 +1,13 @@
-const {Builder, By, Key, until} = require('selenium-webdriver')
+require('dotenv').config();
+const { Builder, By, Key, until } = require('selenium-webdriver')
 const utils = require('./utils')
 const chrome = require('selenium-webdriver/chrome');
 
 const SAUCE_USERNAME = process.env.SAUCE_USERNAME;
 const SAUCE_ACCESS_KEY = process.env.SAUCE_ACCESS_KEY;
-const ONDEMAND_URL = `https://${SAUCE_USERNAME}:${SAUCE_ACCESS_KEY}@ondemand.us-west-1.saucelabs.com:443/wd/hub`;
+// const ONDEMAND_URL = `https://${SAUCE_USERNAME}:${SAUCE_ACCESS_KEY}@ondemand.us-west-1.saucelabs.com:443/wd/hub`;
 // NOTE: Use the URL below if using our EU datacenter (e.g. logged in to app.eu-central-1.saucelabs.com)
-// const ONDEMAND_URL = `https://${SAUCE_USERNAME}:${SAUCE_ACCESS_KEY}@ondemand.eu-central-1.saucelabs.com:443/wd/hub`;
+const ONDEMAND_URL = `https://${SAUCE_USERNAME}:${SAUCE_ACCESS_KEY}@ondemand.eu-central-1.saucelabs.com:443/wd/hub`;
 
 
 /**
@@ -31,16 +32,23 @@ describe('Broken Sauce', function () {
             // If you see a German or English GDPR modal on google.com you 
             // will have to code around that or use the us-west-1 datacenter.
             // You can investigate the modal elements using a Live Test(https://app.saucelabs.com/live/web-testing)
-    
-    
-            let search = await driver.findElement(By.name("Search"));
+
+            // Find search box using correct selector
+            let search = await driver.findElement(By.name("q"));
             await search.sendKeys("Sauce Labs");
-            
-            let button = await driver.findElement(By.name("btnK"))
-            await button.click()
-    
-            let page = await driver.findElement(By.partialLinkText("sauce"));
-    
+            await search.sendKeys(Key.RETURN);
+
+            // const button = await driver.wait(until.elementLocated(By.css('input.gNO89b')), 5000);
+            // await button.click()
+
+            // await driver.wait(until.titleContains('Sauce Labs'), 5000);
+
+            // Find Sauce Labs link in results - more reliable locator
+            const sauceLink = await driver.wait(until.elementLocated(
+                By.xpath('//a[contains(@href, "saucelabs.com")]')
+            ), 5000);
+            await sauceLink.click()
+
             await driver.quit();
         } catch (err) {
             // hack to make this pass for Gitlab CI

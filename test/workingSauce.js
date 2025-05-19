@@ -40,7 +40,7 @@ describe('Working Sauce', function () {
      */
 
     await driver.get("https://saucelabs.com/test/guinea-pig");
-    // await assert.strictEqual("I am a page title - Sauce Labs", await driver.getTitle());
+    await assert.strictEqual("I am a page title - Sauce Labs", await driver.getTitle());
 
     // Task I
     // const link = await driver.findElement(By.id('i am a link'));
@@ -62,7 +62,7 @@ describe('Working Sauce', function () {
     const comments = await driver.findElement(By.id('comments'));
     await comments.clear(); 
     await comments.sendKeys('Some comment');
-    
+
     const button = await driver.findElement(By.className('jumpButton'));
     await button.click();
     const enteredComment = await comments.getAttribute('value');
